@@ -1,6 +1,7 @@
 import pgzrun
 import random
 
+""" CONFIGURATION """
 
 WIDTH = 400
 HEIGHT = 700
@@ -11,6 +12,8 @@ GRAVITY = 0.3
 FLAP = 7
 SPEED = 3
 GAP_SIZE = 180
+
+""" VARIABLES """
 
 bird = Actor("bird1.png")
 bird.x = 75
@@ -30,6 +33,9 @@ start.x = WIDTH / 2
 start.y = HEIGHT / 2
 
 
+""" DRAW """
+
+
 def draw():
     screen.blit("bg.png", (0, 0))
     pipe_top.draw()
@@ -40,10 +46,13 @@ def draw():
         start.draw()
 
 
+""" UPDATE """
+
+
 def update():
     update_bird()
     update_pipes()
-    
+
 
 def update_bird():
     bird.vy += GRAVITY
@@ -56,17 +65,22 @@ def update_bird():
         bird.angle = -90
 
     if not bird.dead:
-        if bird.vy < 0:
-            bird.image = "bird2"
-            bird.angle += 3
-        else:bird.image = "bird1"
-            bird.angle -= 3
+        update_bird_animation()
 
-        if bird.angle > 45:
-            bird.angle = 45
 
-        if bird.angle < -45:
-            bird.angle = -45
+def update_bird_animation():
+    if bird.vy < 0:
+        bird.image = "bird2"
+        bird.angle += 3
+    else:
+        bird.image = "bird1"
+        bird.angle -= 3
+
+    if bird.angle > 45:
+        bird.angle = 45
+
+    if bird.angle < -45:
+        bird.angle = -45
 
 
 def update_pipes():
@@ -82,12 +96,15 @@ def update_pipes():
         sounds.point.play()
 
 
+""" EVENTS """
+
+
 def on_mouse_down(pos):
     if not bird.dead:
         bird.vy = -FLAP
         sounds.wing.play()
     elif start.collidepoint(pos):
-        reset() 
+        reset()
 
 
 def on_mouse_move(pos):
@@ -95,6 +112,9 @@ def on_mouse_move(pos):
         start.image = "start2"
     else:
         start.image = "start1"
+
+
+""" HELPERS """
 
 
 def set_pipes():
@@ -115,6 +135,9 @@ def reset():
     bird.dead = False
     bird.image = "bird1"
     set_pipes()
+
+
+""" INITIALIZE """
 
 
 set_pipes()
