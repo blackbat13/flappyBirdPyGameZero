@@ -61,7 +61,7 @@ def update_bird():
     if bird.colliderect(pipe_top) or bird.colliderect(pipe_bottom) or bird.y > HEIGHT or bird.y < 0:
         sounds.hit.play()
         bird.dead = True
-        bird.image = "bird_dead"
+        bird.image = "dead"
         bird.angle = -90
 
     if not bird.dead:
